@@ -77,7 +77,15 @@ export class RequestConstract extends RequestHandler {
     // Check request method is present in cf.extra() metods
     if (method === "EXTRA" && !options?.method)
       throw new CF_ERROR(
-        `Please add request method for in request options cf.extra() methods`
+        `Please add request method for request options in cf.extra() methods`
+      );
+
+    // Check if override the request method
+    if (method !== "EXTRA" && method !== options?.method)
+      throw new CF_ERROR(
+        `You can not override '${method}' to '${
+          options?.method
+        }' method for cf.${method.toLowerCase()}() methods`
       );
 
     // check if invalid cache value provide
@@ -90,7 +98,7 @@ export class RequestConstract extends RequestHandler {
         `Invalid credentials value '${credentials}' for http request!`
       );
 
-    // check if invalid mdoe value provide
+    // check if invalid mode value provide
     if (mode && !modeProps.includes(mode))
       throw new CF_ERROR(`Invalid mode value '${mode}' for http request!`);
 

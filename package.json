@@ -1,10 +1,11 @@
 {
   "name": "cutefetch",
-  "version": "1.0.1",
+  "version": "1.0.1-test.2",
   "description": "A sleek and minimalistic HTTP client for modern web and Node.js applications, designed with simplicity and elegance in mind.",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && tsup"
+    "build": "npm run clean && npx tsx banner.ts && tsup && rimraf temp-banner.txt",
+    "dev": "npx tsx watch test/index.ts"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
@@ -32,8 +33,8 @@
     "promise",
     "cutefetch"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "Md Ababil Hossain (https://devababil.com)",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/DevAbabil/cutefetch.git"
@@ -48,6 +49,7 @@
     "@typescript-eslint/parser": "^8.24.1",
     "rimraf": "^5.0.10",
     "tsup": "^8.3.6",
+    "tsx": "^4.19.3",
     "typescript": "^5.7.3"
   }
 }

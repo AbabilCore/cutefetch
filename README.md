@@ -337,3 +337,176 @@ if (!ok) {
 ```
 
 **Similarly, other request methods can be applied through this `extra` method.**
+
+<h2 align='center'> Error and Exceptions</h2>
+
+You need to add the corresponding HTTP method in the `CuteFetch` Configuration for each `CuteFetch` instance method you intend to use.
+
+For example: If you want to use the `cf.get()` method, you need to add it to the `CuteFetch` Configuration.
+
+```js
+const cf = new CuteFetch({
+  methods: ["GET"],
+  ...others,
+});
+```
+
+If you call the `cf.get()` method without adding "GET" to the methods array in the `CuteFetch` configuration, you will see the following error:
+
+<div align="center">
+  <img src="./assets/config.err-1.png">
+</div>
+
+Similarly, you need to add all the HTTP Request methods you intend to use to the methods Array in the `CuteFetch` Configuration.
+
+---
+
+If you mistakenly change the HTTP Request method, you will see the following error.
+
+For example:
+
+```js
+const result = await cf.get("/posts", {
+  method: "POST",
+});
+```
+
+<div align="center">
+  <img src="./assets/config.err-2.png">
+</div>
+
+Note: It is pointless to try to modify the Request method of these five instance methods: `cf.get()`, `cf.post()`, `cf.put()`, `cf.patch()`, `cf.delete()`.
+
+---
+
+If you use the `cf.extra()` method, you must include the Request Method within the options.
+
+For example:
+
+```js
+const response = await cf.extra("/posts", {
+  method: "GET",
+});
+
+const { status, statusText, ok /*... and more*/ } = response;
+
+if (!ok) {
+  // Some Error handling Logic
+} else {
+  // manipulate respone data using response method e.g. response.text(),response.json()
+}
+```
+
+If you don't do this, you will see the following error:
+
+For example:
+
+```js
+const response = await cf.extra("/posts", {
+  ...othes,
+});
+```
+
+<div align="center">
+  <img src="./assets/config.err-3.png">
+</div>
+
+---
+
+### Bodyless HTTP request for CuteFetch:
+
+```
+ GET HEAD OPTIONS DELETE
+```
+
+If you include a body property in the options for the mentioned Bodyless HTTP requests, you will observe the following error.
+
+For example:
+
+```js
+(async () => {
+  try {
+    const response = await cf.extra("/posts/1", {
+      method: "HEAD",
+      body: JSON.stringify({ name: "Ababil", age: undefined }),
+    });
+    if (response.ok) {
+      console.log(await response.headers);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+})();
+```
+
+<div align="center">
+  <img src="./assets/config.err-4.png">
+</div>
+
+## How to use it in plain HTML
+
+**app.js**
+
+```js
+// import CuteFetch library
+import CuteFetch from "https://www.unpkg.com/cutefetch@x.x.x/dist/index.mjs";
+
+// navigate to 'https://www.npmjs.com/package/cutefetch' to see latest version for CuteFetch
+
+// create CuteFetch instance
+const cf = new CuteFetch({
+  baseURL: "https://typecode-api.vercel.app",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  timeout: 12000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+
+// use intance method
+cf.get("/api/posts", {
+  query: {
+    _page: "1",
+    _limit: "3",
+  },
+})
+  .then(console.log)
+  .catch(console.log);
+```
+
+**index.html**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- linkup app.js in html -->
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
+```
+
+**Inside browser console**
+
+<div align="center">
+  <img src="./assets/browser.console.result.png">
+</div>
+
+### Supported HTTP Methods for CuteFetch
+
+```
+GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS ✔️
+```
+
+---
+
+---
+
+<h3 align='center'>Thanks to you, and take care of your eyes.</h3>
+
+<p align='center'>❤️😊</p>

@@ -1,1 +1,1 @@
-export { default } from "./lib/CuteFetch";
+export { default } from "./CuteFetch";

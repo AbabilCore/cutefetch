@@ -1,6 +1,6 @@
 {
   "name": "cutefetch",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A sleek and minimalistic HTTP client for modern web and Node.js applications, designed with simplicity and elegance in mind.",
   "scripts": {
     "clean": "rimraf dist",

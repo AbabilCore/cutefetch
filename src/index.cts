@@ -1,1 +1,1 @@
-module.exports = require("./lib/CuteFetch").default;
+module.exports = require("./CuteFetch").default;

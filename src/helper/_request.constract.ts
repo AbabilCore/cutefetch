@@ -81,7 +81,7 @@ export class RequestConstract extends RequestHandler {
       );
 
     // Check if override the request method
-    if (method !== "EXTRA" && method !== options?.method)
+    if (method !== "EXTRA" && options?.method && method !== options?.method)
       throw new CF_ERROR(
         `You can not override '${method}' to '${
           options?.method

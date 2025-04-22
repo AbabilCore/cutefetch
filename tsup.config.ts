@@ -1,4 +1,5 @@
 import { defineConfig } from "tsup";
+import fs from "fs";
 
 export default defineConfig([
   {
@@ -6,11 +7,13 @@ export default defineConfig([
     format: ["esm"],
     outExtension: () => ({ js: ".mjs" }),
     dts: true,
-    minify: true,
     clean: true,
     esbuildOptions(options) {
       options.mangleProps = /^_/;
       options.mangleQuoted = true;
+    },
+    banner: {
+      js: fs.readFileSync("temp-banner.txt", "utf-8"),
     },
   },
   {
@@ -18,11 +21,13 @@ export default defineConfig([
     format: ["cjs"],
     outExtension: () => ({ js: ".cjs" }),
     dts: false,
-    minify: true,
     clean: false,
     esbuildOptions(options) {
       options.mangleProps = /^_/;
       options.mangleQuoted = true;
+    },
+    banner: {
+      js: fs.readFileSync("temp-banner.txt", "utf-8"),
     },
   },
 ]);

@@ -27,8 +27,17 @@ export class RequestHandler {
   private _normalized_request_options = (
     options?: IRequestOptions
   ): NormalizedReqOptions => {
-    const { body, cache, credentials, headers, method, mode, timeout } =
-      options || {};
+    const {
+      body,
+      cache,
+      credentials,
+      headers,
+      method,
+      mode,
+      timeout,
+      transformErrorResponse,
+      transformResponse,
+    } = options || {};
 
     return Object.fromEntries(
       Object.entries({
@@ -38,6 +47,8 @@ export class RequestHandler {
         headers,
         method,
         mode,
+        transformErrorResponse,
+        transformResponse,
         signal: this._timout(timeout || defaultTimeout).signal,
       }).filter(([, value]) => value !== undefined)
     );
@@ -85,9 +96,19 @@ export class RequestHandler {
   };
 
   private _cute_fetch_response = async (
-    res: Response
+    res: Response,
+    options: IRequestOptions
   ): Promise<CuteFetchResponse> => {
-    const result = await this._parse_response(res);
+    let result = await this._parse_response(res);
+
+    if (options.transformResponse && res.ok) {
+      result = options.transformResponse(result);
+    }
+
+    if (options.transformErrorResponse && !res.ok) {
+      result = options.transformErrorResponse(result);
+    }
+
     return {
       status: res.status,
       statusText: res.statusText,
@@ -101,38 +122,36 @@ export class RequestHandler {
   //..................................
   protected reqGET = async ({ url, options }: ReqParams) => {
     options = this._normalized_request_options(options);
-
     const resonse = await fetch(url, options);
-    return await this._cute_fetch_response(resonse);
+    return await this._cute_fetch_response(resonse, options);
   };
 
   protected reqPOST = async ({ url, options }: ReqParams) => {
     options = this._normalized_request_options(options);
     const resonse = await fetch(url, options);
-    return await this._cute_fetch_response(resonse);
+    return await this._cute_fetch_response(resonse, options);
   };
 
   protected reqPUT = async ({ url, options }: ReqParams) => {
     options = this._normalized_request_options(options);
     const resonse = await fetch(url, options);
-    return await this._cute_fetch_response(resonse);
+    return await this._cute_fetch_response(resonse, options);
   };
 
   protected reqPATCH = async ({ url, options }: ReqParams) => {
     options = this._normalized_request_options(options);
     const resonse = await fetch(url, options);
-    return await this._cute_fetch_response(resonse);
+    return await this._cute_fetch_response(resonse, options);
   };
 
   protected reqDELETE = async ({ url, options }: ReqParams) => {
     options = this._normalized_request_options(options);
     const resonse = await fetch(url, options);
-    return await this._cute_fetch_response(resonse);
+    return await this._cute_fetch_response(resonse, options);
   };
 
   protected reqEXTRA = async ({ url, options }: ReqParams) => {
     options = this._normalized_request_options(options);
-
     return await fetch(url, options);
   };
 }

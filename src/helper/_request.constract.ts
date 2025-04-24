@@ -8,6 +8,7 @@ import {
   GenURLParams,
   IConfig,
   InitiatorParams,
+  InspectObject,
   IRequestOptions,
   isValidURL,
   modeProps,
@@ -34,6 +35,9 @@ export class RequestConstract extends RequestHandler {
       body,
       headers,
       query,
+      transformErrorResponse,
+      transformResponse,
+      inspect,
     }: IRequestOptions = {
       ...this.config,
       ...options,
@@ -118,7 +122,16 @@ export class RequestConstract extends RequestHandler {
     if (timeout && (isNaN(timeout) || timeout < 0))
       throw new CF_ERROR(`timeout must be a valid positive number `);
 
-    // set method in requ options methods
+    // check if transformErrorResponse and transformResponse present in extra instance method
+    if (method === "EXTRA" && (transformErrorResponse || transformResponse))
+      throw new CF_ERROR(
+        `You can not use ${
+          (transformErrorResponse && "transformErrorResponse") ||
+          (transformResponse && "transformResponse")
+        } in cf.extra() methods!`
+      );
+
+    // set method in request options methods
     if (method !== "EXTRA") requestOptionsMethod = method;
 
     return this._bridge({
@@ -135,6 +148,9 @@ export class RequestConstract extends RequestHandler {
         body,
         headers,
         query,
+        transformErrorResponse,
+        transformResponse,
+        inspect,
       },
     });
   };
@@ -146,7 +162,20 @@ export class RequestConstract extends RequestHandler {
       url_instance = new URL(path);
     } else if (baseURL && isValidURL(baseURL)) {
       url_instance = new URL(baseURL);
-      url_instance.pathname = path;
+
+      if (
+        baseURL.charAt(baseURL.length - 1) === "/" &&
+        path.charAt(0) === "/"
+      ) {
+        url_instance.href = baseURL.slice(0, baseURL.length - 1) + path;
+      } else if (
+        baseURL.charAt(baseURL.length - 1) !== "/" &&
+        path.charAt(0) !== "/"
+      ) {
+        url_instance.href = baseURL + "/" + path;
+      } else {
+        url_instance.href = baseURL + path;
+      }
     } else {
       throw new CF_ERROR(`Faild to generate URL -> ${path}`);
     }
@@ -156,7 +185,37 @@ export class RequestConstract extends RequestHandler {
         url_instance.searchParams.append(key, value);
       });
     }
+
     return url_instance.href;
+  };
+
+  private _inspector = (url: string, options?: IRequestOptions) => {
+    if (!options || !options.inspect) return;
+
+    const { callback, name_space, rule } = options?.inspect() || {};
+
+    const inspectObject = {} as InspectObject;
+
+    if (rule?.methods && this.config)
+      inspectObject.methods = this.config.methods;
+    if (rule?.method) inspectObject.method = options.method;
+    if (rule?.timeout) inspectObject.timeout = options.timeout;
+    if (rule?.credentials) inspectObject.credentials = options.credentials;
+    if (rule?.mode) inspectObject.mode = options.mode;
+    if (rule?.cache) inspectObject.cache = options.cache;
+    if (rule?.baseURL) inspectObject.baseURL = options.baseURL;
+    if (rule?.full_url) inspectObject.full_url = url;
+    if (rule?.headers) inspectObject.headers = options.headers;
+    if (rule?.body) inspectObject.body = options.body;
+    if (rule?.query) inspectObject.query = options.query;
+
+    if (callback) {
+      let key = name_space ?? "CuteFetch Inspector";
+      callback({
+        [key]: inspectObject,
+        extract: () => inspectObject,
+      });
+    }
   };
 
   private _bridge = <T = CuteFetchResponse>({
@@ -169,6 +228,8 @@ export class RequestConstract extends RequestHandler {
       baseURL: options?.baseURL,
       query: options?.query,
     });
+
+    this._inspector(url, options);
 
     switch (method) {
       case "GET":

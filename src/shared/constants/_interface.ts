@@ -1,4 +1,9 @@
-import { RequestMethod } from "@/shared";
+import {
+  Inspect,
+  RequestMethod,
+  TransformErrorResponse,
+  TransformResponse,
+} from "@/shared";
 
 export interface IConfig
   extends Pick<RequestInit, "credentials" | "mode" | "cache"> {
@@ -12,7 +17,16 @@ export interface IRequestOptions extends IConfig {
   query?: Record<string, string>;
   method?: RequestMethod;
   body?: BodyInit | null;
+  transformResponse?: TransformResponse;
+  transformErrorResponse?: TransformErrorResponse;
+  inspect?: Inspect;
 }
+
+export interface IRequestOptionsExtra
+  extends Omit<
+    IRequestOptions,
+    "transformResponse" | "transformErrorResponse"
+  > {}
 
 export interface InitiatorParams {
   path: string;
@@ -34,9 +48,10 @@ export interface ReqParams {
 export interface NormalizedReqOptions
   extends Omit<IRequestOptions, "methods" | "baseURL" | "timeout" | "query"> {}
 
-export type CuteFetchResponse = {
-  status: number;
-  statusText: string;
-  data?: any;
-  error?: any;
-};
+export interface InspectObject
+  extends Omit<
+    IRequestOptions,
+    "transformResponse" | "transformErrorResponse"
+  > {
+  full_url?: string;
+}

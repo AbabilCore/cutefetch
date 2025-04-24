@@ -1,9 +1,20 @@
 import { RequestConstract } from "@/helper";
-import { CuteFetchResponse, IConfig, IRequestOptions } from "@/shared";
+import {
+  CuteFetchResponse,
+  IConfig,
+  IRequestOptions,
+  IRequestOptionsExtra,
+} from "@/shared";
 
 class CuteFetch extends RequestConstract {
   constructor(protected config?: IConfig) {
     super(config);
+
+    if (this.config) {
+      this.config.credentials = config?.credentials ?? "same-origin";
+      this.config.cache = config?.cache ?? "default";
+      this.config.mode = config?.mode ?? "cors";
+    }
   }
 
   public get = (
@@ -56,7 +67,10 @@ class CuteFetch extends RequestConstract {
       options,
     });
 
-  public extra = (path: string, options?: IRequestOptions): Promise<Response> =>
+  public extra = (
+    path: string,
+    options?: IRequestOptionsExtra
+  ): Promise<Response> =>
     this.initiator({
       path,
       method: "EXTRA",

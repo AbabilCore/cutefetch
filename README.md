@@ -29,10 +29,10 @@ npm install cutefetch  # Or yarn add cutefetch
 
 ```js
 /*For ESM*/
-import CuteFetch from "CuteFetch";
+import CuteFetch from "cutefetch";
 
 /*For CJS*/
-const CuteFetch = require("CuteFetch");
+const CuteFetch = require("cutefetch");
 ```
 
 ## Create CuteFetch instance
@@ -433,8 +433,6 @@ const { error, data, status, statusText } = await cf.put("/posts/1", {
 
 This feature is powerful for debugging or understanding how requests are made under the hood.
 
-Here is the updated documentation with the addition of a **"Transformer"** title for `transformResponse` and `transformErrorResponse`:
-
 ## 🚀 Transformer: `transformResponse` and `transformErrorResponse`
 
 ### Overview
@@ -533,8 +531,6 @@ if (data) {
 
 - Use **`transformResponse`** if you need to format or modify the data before your application uses it.
 - Use **`transformErrorResponse`** to adjust error handling or add custom messages, logging, or other properties to errors.
-
-Here's a more attractive and engaging version for the heading and documentation:
 
 ## ✨ **Create Your Own Global Transformer**
 

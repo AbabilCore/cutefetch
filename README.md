@@ -4,6 +4,8 @@
 
 CuteFetch is a HTTP client, inspired by Axios, thats offers a sleek and minimalistic solution for modern web and Node.js applications
 
+> 🧊 **Tiny & Efficient:** Only ~66.4 kB unpacked — perfect for modern apps.
+
 ## 🚀 CuteFetch - Lightweight & Customizable HTTP Client
 
 | Feature                       | Description                                                                  |
@@ -80,20 +82,20 @@ const cf = new CuteFetch({
 
 ### 🧰 CuteFetch - Request Properties
 
-| Property                 | Default                                                   | Optional | Replaceable |
-| ------------------------ | --------------------------------------------------------- | :------: | :---------: |
-| `body`                   | `undefined`                                               |    ✅    |     ✅      |
-| `query`                  | `undefined`                                               |    ✅    |     ✅      |
-| `headers`                | From `CuteFetch` config or default                        |    ✅    |     ✅      |
-| `timeout`                | From `CuteFetch` config or default                        |    ✅    |     ✅      |
-| `baseURL`                | From `CuteFetch` config or `undefined`                    |    ✅    |     ✅      |
-| `credentials`            | From `CuteFetch` config or default                        |    ✅    |     ✅      |
-| `mode`                   | From `CuteFetch` config or default                        |    ✅    |     ✅      |
-| `cache`                  | From `CuteFetch` config or default                        |    ✅    |     ✅      |
-| `method`                 | Defined by CuteFetch method used (`GET`, `POST`, etc.)    |    ✅    |     ❌      |
-| `transformResponse`      | User-defined transformer for successful responses         |    ✅    |     ❌      |
-| `transformErrorResponse` | User-defined transformer for error responses              |    ✅    |     ❌      |
-| `inspect`                | Custom debugger/logging function (`undefined` by default) |    ✅    |     ❌      |
+| Property                 | Default                                                   | Optional |  Replaceable   |
+| ------------------------ | --------------------------------------------------------- | :------: | :------------: |
+| `body`                   | `undefined`                                               |    ✅    |       ✅       |
+| `query`                  | `undefined`                                               |    ✅    |       ✅       |
+| `headers`                | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `timeout`                | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `baseURL`                | From `CuteFetch` config or `undefined`                    |    ✅    |       ✅       |
+| `credentials`            | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `mode`                   | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `cache`                  | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `method`                 | Defined by CuteFetch method used (`GET`, `POST`, etc.)    |    ✅    |       ❌       |
+| `transformResponse`      | User-defined transformer for successful responses         |    ✅    | not applicable |
+| `transformErrorResponse` | User-defined transformer for error responses              |    ✅    | not applicable |
+| `inspect`                | Custom debugger/logging function (`undefined` by default) |    ✅    | not applicable |
 
 ## Example Request
 

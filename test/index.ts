@@ -3,6 +3,19 @@ import { log } from "@/shared";
 
 log.info("Test Module running....");
 
+const transformer = {
+  success: (fn: any) => (result: any) =>
+    fn({
+      ...result,
+      globalField: "i am global field for success transformer",
+    }),
+  failed: (fn: any) => (error: any) =>
+    fn({
+      ...error,
+      globalField: "i am global field for error transformer",
+    }),
+};
+
 const cf = new CuteFetch({
   methods: ["DELETE", "GET", "POST", "PATCH", "PUT"],
   baseURL: "https://typecode-api.vercel.app/api/",
@@ -22,43 +35,25 @@ const cf = new CuteFetch({
       param_a: "i am a",
       param_b: "i am b",
     },
-    transformResponse: (data) => data,
-    transformErrorResponse: (error) => error,
-    inspect: () => ({
-      name_space: "post data fetch",
-      rule: {
-        // methods: true,
-        // method: true,
-        // timeout: true,
-        // credentials: true,
-        // mode: true,
-        // cors: true,
-        // cache: true,
-        baseURL: true,
-        full_url: true,
-        // headers: true,
-        query: true,
-        body: true,
-      },
-      callback: (result) => {
-        // console.log(result["post data fetch"]);
-
-        const { body, query } = result.extract();
-
-        if (body) {
-          log.info(JSON.parse(body as string));
-        }
-
-        log.info(query);
-      },
+    transformResponse: transformer.success((result: any) => {
+      return {
+        ...result,
+        transformed: true,
+      };
+    }),
+    transformErrorResponse: transformer.failed((error: any) => {
+      return {
+        ...error,
+        myMessage: "faild to perform update orperation.",
+      };
     }),
   });
 
-  // if (data) {
-  //   log.info(data);
-  // } else {
-  //   log.info(error);
-  // }
+  if (data) {
+    log.info(data);
+  } else {
+    log.info(error);
+  }
 
   // const res = await cf.extra("/posts/1", {
   //   method: "PATCH",

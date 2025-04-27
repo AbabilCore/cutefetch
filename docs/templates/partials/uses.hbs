@@ -1,0 +1,332 @@
+## How to use?
+
+```bash
+npm install cutefetch  # Or yarn add cutefetch
+```
+
+### Includes in Project
+
+```js
+/*For ESM*/
+import CuteFetch from "cutefetch";
+
+/*For CJS*/
+const CuteFetch = require("cutefetch");
+```
+
+### Create CuteFetch instance
+
+```js
+const cf = new CuteFetch({
+  baseURL: "https://typecode-api.vercel.app",
+  timeout: 12000,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  mode: "cors",
+  cache: "force-cache",
+  credentials: "include",
+});
+```
+
+### ⚙️ CuteFetch Config Props
+
+| Property      | Description                                                                                                               | Default                                                                                       | Optional |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | :------: |
+| `methods`     | Array of HTTP request methods you plan to use (`GET`, `POST`, etc.). Must be explicitly defined.                          | `[]`                                                                                          |    ❌    |
+| `baseURL`     | Base URL to prepend to all requests                                                                                       | `nothing`                                                                                     |    ✅    |
+| `resultProps` | Key name where the final response data will be available in the result object                                             | `data`                                                                                        |    ✅    |
+| `credentials` | Sets the [credentials](https://developer.mozilla.org/en-US/docs/Web/API/Request/credentials) option for all HTTP requests | `same-origin`                                                                                 |    ✅    |
+| `cache`       | Sets the [cache](https://developer.mozilla.org/en-US/docs/Web/API/Request/cache) behavior for requests                    | `default`                                                                                     |    ✅    |
+| `mode`        | Sets the [mode](https://developer.mozilla.org/en-US/docs/Web/API/Request/mode) for the request                            | `cors`                                                                                        |    ✅    |
+| `timeout`     | Global timeout duration (in milliseconds) for all requests unless overridden per-request                                  | `5000`                                                                                        |    ✅    |
+| `headers`     | Object of headers to be sent with every request (default headers can be overridden).                                      | Default browser headers are included, such as `User-Agent`, `Accept`, `Accept-Encoding`, etc. |    ✅    |
+
+### CuteFetch instance methods (6)
+
+1. **cf.get()**  
+   **Syntax**: cf.get('/path-to-endpoint', { Request options })
+2. **cf.post()**  
+   **Syntax:** cf.post('/path-to-endpoint', { Request options })
+3. **cf.put()**  
+   **Syntax:** cf.put('/path-to-endpoint', { Request options })
+4. **cf.patch()**  
+   **Syntax:** cf.patch('/path-to-endpoint', { Request options })
+5. **cf.delete()**  
+   **Syntax:** cf.delete('/path-to-endpoint', { Request options })
+6. **cf.extra()**  
+   **Syntax:** cf.extra('/path-to-endpoint', { Request options })
+
+### Request options properties:
+
+---
+
+### 🧰 CuteFetch - Request Properties
+
+| Property                 | Default                                                   | Optional |  Replaceable   |
+| ------------------------ | --------------------------------------------------------- | :------: | :------------: |
+| `body`                   | `undefined`                                               |    ✅    |       ✅       |
+| `query`                  | `undefined`                                               |    ✅    |       ✅       |
+| `headers`                | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `timeout`                | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `baseURL`                | From `CuteFetch` config or `undefined`                    |    ✅    |       ✅       |
+| `credentials`            | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `mode`                   | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `cache`                  | From `CuteFetch` config or default                        |    ✅    |       ✅       |
+| `method`                 | Defined by CuteFetch method used (`GET`, `POST`, etc.)    |    ✅    |       ❌       |
+| `transformResponse`      | User-defined transformer for successful responses         |    ✅    | not applicable |
+| `transformErrorResponse` | User-defined transformer for error responses              |    ✅    | not applicable |
+| `inspect`                | Custom debugger/logging function (`undefined` by default) |    ✅    | not applicable |
+
+## Example Request
+
+### Create a Basic Instance
+
+```js
+const cf = new CuteFetch({
+  baseURL: "https://typecode-api.vercel.app",
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  timeout: 5000,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
+```
+
+### 1. GET
+
+**Example Success Response handling:**
+
+```js
+const { data, error } = await cf.get("/api/posts", {
+  timeout: 8000,
+});
+
+if (data) {
+  console.log(data);
+} else {
+  console.log(error);
+}
+```
+
+```js
+// Console Output
+{
+  success: true,
+  status: 200,
+  message: 'All Posts here',
+  data: [
+    {
+      userId: 1,
+      id: 1,
+      title: 'sunt aut facere repellat provident occaecati excepturi optio reprehenderit',
+      body: 'quia et suscipit\n' +
+        'suscipit recusandae consequuntur expedita et cum\n' +
+        'reprehenderit molestiae ut ut quas totam\n' +
+        'nostrum rerum est autem sunt rem eveniet architecto'
+    },
+    {
+      userId: 1,
+      id: 2,
+      title: 'qui est esse',
+      body: 'est rerum tempore vitae\n' +
+        'sequi sint nihil reprehenderit dolor beatae ea dolores neque\n' +
+        'fugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\n' +
+        'qui aperiam non debitis possimus qui neque nisi nulla'
+    },
+    ...more
+  ]
+}
+```
+
+**Example Failed Response handling:**
+
+```js
+const { data, error } = await cf.get("/api/postss"); // Invalid endpoint
+
+if (data) {
+  console.log(data);
+} else {
+  console.log(error); // Error output in the console
+}
+```
+
+```json
+// Console Output
+{
+  "success": false,
+  "status": 404,
+  "message": "Requested data will not be found"
+}
+```
+
+### 2. POST
+
+```js
+const post = {
+  title: "তবে গল্পটা যদি আরও কিছুটা দুরে যেতো",
+  body: "মনে আছে? একদিন আমরা আঁকাশের তারা গুনছিলাম। তুমি বোকার মত বলেছিলে হ্যাঁ। আমি তোমাকে একটা খোঁচা দিলাম। অমনি তোমার হুঁশ ফিরলো আর বললে, ধুর দিনের বেলা কে তাঁরা গুনলো?",
+  userId: 1,
+};
+
+const { data, error } = await cf.post("/api/posts", {
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(post),
+});
+
+if (data) {
+  console.log(data);
+} else {
+  console.log(error); // No Error
+}
+```
+
+```js
+// Console Output
+{
+  success: true,
+  status: 201,
+  message: 'Post Successfully created',
+  data: {
+    title: 'তবে গল্পটা যদি আরও কিছুটা দুরে যেতো',
+    body: 'মনে আছে? একদিন আমরা আঁকাশের তারা গুনছিলাম। তুমি বোকার মত বলেছিলে হ্যাঁ। আমি তোমাকে একটা খোঁচা দিলাম। অমনি তোমার হুঁশ ফিরলো আর বললে, ধুর দিনের বেলা কে তাঁরা গুনলো?',
+    userId: 1,
+    id: 101
+  }
+}
+```
+
+---
+
+### 3. PUT
+
+```js
+const { data, error } = await cf.put("/api/posts/1", {
+  body: JSON.stringify({
+    title: "foo",
+    body: "bar",
+    userId: 1,
+  }),
+});
+
+if (data) {
+  console.log(data);
+} else {
+  console.log(error); // No Error
+}
+```
+
+```js
+// Console Output
+{
+  success: true,
+  status: 202,
+  message: 'Post updated successfully',
+  data: { title: 'foo', body: 'bar', userId: 1, id: 1 }
+}
+```
+
+---
+
+### 4. PATCH
+
+```js
+const { data, error } = await cf.patch("/api/posts/1", {
+  body: JSON.stringify({
+    title: "তুমি আমায় ডেকেছিলে এক মেঘে ঢাকা দিনে।",
+  }),
+});
+
+if (data) {
+  console.log(data);
+} else {
+  console.log(error); // No Error
+}
+```
+
+```js
+// Console Output
+{
+  success: true,
+  status: 202,
+  message: 'Post partially updated!',
+  data: {
+    userId: 1,
+    id: 1,
+    title: 'তুমি আমায় ডেকেছিলে এক মেঘে ঢাকা দিনে।',
+    body: 'quia et suscipit\n' +
+      'suscipit recusandae consequuntur expedita et cum\n' +
+      'reprehenderit molestiae ut ut quas totam\n' +
+      'nostrum rerum est autem sunt rem eveniet architecto'
+  }
+}
+```
+
+---
+
+### 5. DELETE
+
+```js
+const { data, error } = await cf.delete("/api/posts/5");
+
+if (data) {
+  console.log(data);
+} else {
+  console.log(error); // No Error
+}
+```
+
+```js
+// Console Output
+{ success: true, status: 200, message: 'Post deleted id: 5' }
+```
+
+## EXTRA - Methods
+
+This method can handle any HTTP Request. Additionally, it gives the Developer more control. However, the `extra` method returns a Promise Response, so if you use it, you will be responsible for handling the Promise Response yourself
+
+It's worth noting that `HEAD` and `OPTIONS` requests can also be used via the `extra` method.
+
+**GET** request with extra method:
+
+```js
+const response = await cf.extra("/api/posts", {
+  method: "GET",
+  query: {
+    _limit: "1",
+    _start: "2",
+  },
+});
+
+const { status, statusText, ok /*... and more*/ } = response;
+
+if (!ok) {
+  // Some Error handling Logic
+  console.log(await response.json());
+} else {
+  // manipulate respone data using response method e.g. response.text(),response.json()
+  console.log(await response.json());
+}
+```
+
+```js
+// Console Output
+{
+  success: true,
+  status: 200,
+  message: 'All Posts here',
+  data: [
+    {
+      userId: 1,
+      id: 3,
+      title: 'ea molestias quasi exercitationem repellat qui ipsa sit aut',
+      body: 'et iusto sed quo iure\n' +
+        'voluptatem occaecati omnis eligendi aut ad\n' +
+        'voluptatem doloribus vel accusantium quis pariatur\n' +
+        'molestiae porro eius odio et labore et velit aut'
+    }
+  ]
+}
+```
+
+**Similarly, other request methods can be applied through this `extra` method.**

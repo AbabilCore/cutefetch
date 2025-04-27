@@ -1,0 +1,80 @@
+## 🛠️ `inspect` Property in CuteFetch Request
+
+The `inspect` property is an optional feature that allows you to inspect and log detailed information about a request and its components before it's sent. You can use this feature to debug, log, or track specific aspects of a request's execution. The property is an object containing two parts:
+
+1. **`name_space`**: The name for the specific inspection process, which helps in identifying logs or outputs related to this request.
+
+2. **`rule`**: This is an object where you can specify which parts of the request to inspect. It includes options to inspect various properties of the request, such as:
+
+   - `methods`: Whether to inspect the HTTP methods used.
+   - `method`: The specific HTTP method (e.g., `GET`, `POST`).
+   - `timeout`: The timeout value for the request.
+   - `credentials`: The credentials used in the request.
+   - `mode`: The mode for the request (`cors`, `no-cors`, etc.).
+   - `cors`: Whether Cross-Origin Resource Sharing (CORS) settings are enabled.
+   - `cache`: The cache settings for the request.
+   - `baseURL`: The base URL used for the request.
+   - `full_url`: The complete URL formed by combining `baseURL` and `query` parameters.
+   - `headers`: The headers set for the request.
+   - `query`: The query parameters included in the request.
+   - `body`: The body content of the request.
+
+3. **`callback`**: A function that gets called once the inspection is done. This function receives the result of the inspection, allowing you to extract and manipulate information before or after the request is made. You can use this callback to log the inspected data or perform any additional tasks.
+
+### Example
+
+```javascript
+const { error, data, status, statusText } = await cf.put("/posts/1", {
+  body: JSON.stringify({
+    title: "It's Ababil Nefren",
+    description: "A programmer whose brain is not static!",
+  }),
+  query: {
+    param_a: "i am a",
+    param_b: "i am b",
+  },
+  inspect: () => ({
+    name_space: "post data fetch",
+    rule: {
+      // methods: true,
+      // method: true,
+      // timeout: true,
+      // credentials: true,
+      // mode: true,
+      // cors: true,
+      // cache: true,
+      baseURL: true,
+      full_url: true,
+      // headers: true,
+      query: true,
+      body: true,
+    },
+    callback: (result) => {
+      // Way 1: Logs the whole inspected object (the full result)
+      console.log(result["post data fetch"]);
+
+      // Way 2: Correct way to extract data using the extract method
+      const { body, query } = result.extract();
+
+      if (body) {
+        console.log("Body content: ", JSON.parse(body)); // Log the body content (if available)
+      }
+
+      console.log("Query parameters: ", query); // Log query parameters
+    },
+  }),
+});
+```
+
+### How it works:
+
+- **`name_space`**: This helps you identify logs specific to this request.
+- **`rule`**: By setting this to `true`, you specify which request parts you want to inspect. In the example above, we're inspecting the `baseURL`, `full_url`, `query`, and `body` properties.
+- **`callback`**: The `callback` function is executed with the result of the inspection. You can then extract specific properties (e.g., `body` and `query`) and perform actions like logging them or manipulating the data.
+
+### Notes:
+
+- Use the `inspect` feature to keep track of request parameters and details for debugging or logging purposes.
+- The callback function gives you flexibility to log, process, or store any information you need from the request.
+
+This feature is powerful for debugging or understanding how requests are made under the hood.

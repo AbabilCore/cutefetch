@@ -1,0 +1,102 @@
+## Error and Exceptions
+
+You need to add the corresponding HTTP method in the `CuteFetch` Configuration for each `CuteFetch` instance method you intend to use.
+
+For example: If you want to use the `cf.get()` method, you need to add it to the `CuteFetch` Configuration.
+
+```js
+const cf = new CuteFetch({
+  methods: ["GET"],
+  ...others,
+});
+```
+
+If you call the `cf.get()` method without adding "GET" to the methods array in the `CuteFetch` configuration, you will see the following error:
+
+<div align="center">
+  <img src="{{asset "config.err-1.png"}}">
+</div>
+
+Similarly, you need to add all the HTTP Request methods you intend to use to the methods Array in the `CuteFetch` Configuration.
+
+---
+
+If you mistakenly change the HTTP Request method, you will see the following error.
+
+For example:
+
+```js
+const result = await cf.get("/posts", {
+  method: "POST",
+});
+```
+
+<div align="center">
+  <img src="{{asset "config.err-2.png"}}">
+</div>
+
+Note: It is pointless to try to modify the Request method of these five instance methods: `cf.get()`, `cf.post()`, `cf.put()`, `cf.patch()`, `cf.delete()`.
+
+---
+
+If you use the `cf.extra()` method, you must include the Request Method within the options.
+
+For example:
+
+```js
+const response = await cf.extra("/posts", {
+  method: "GET",
+});
+
+const { status, statusText, ok /*... and more*/ } = response;
+
+if (!ok) {
+  // Some Error handling Logic
+} else {
+  // manipulate respone data using response method e.g. response.text(),response.json()
+}
+```
+
+If you don't do this, you will see the following error:
+
+For example:
+
+```js
+const response = await cf.extra("/posts", {});
+```
+
+<div align="center">
+  <img src="{{asset "config.err-3.png"}}">
+</div>
+
+---
+
+### Bodyless HTTP request for CuteFetch:
+
+```
+ GET HEAD OPTIONS DELETE
+```
+
+If you include a body property in the options for the mentioned Bodyless HTTP requests, you will observe the following error.
+
+For example:
+
+```js
+(async () => {
+  try {
+    const response = await cf.extra("/posts/1", {
+      method: "HEAD",
+      body: JSON.stringify({ name: "Ababil", age: undefined }),
+    });
+    if (response.ok) {
+      console.log(await response.headers);
+    }
+  } catch (error) {
+    console.log(error);
+  }
+})();
+```
+
+<div align="center">
+  <img src="{{asset "config.err-4.png"}}">
+</div>

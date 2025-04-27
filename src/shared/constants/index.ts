@@ -1,4 +1,4 @@
-import { ConfigProps, RequestMethod } from "@/shared";
+import { ConfigProps, RequestMethod } from "@/src/shared";
 
 export const credentialsProps: RequestCredentials[] = [
   "include",

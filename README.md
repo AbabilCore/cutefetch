@@ -1,12 +1,43 @@
-<h1 align='center'>CuteFetch</h1>
+<!--
+  CuteFetch
+  README generated automatically.
+  Author: Md Ababil Hossain
+-->
 
-### What is CuteFetch ?
+<h1 align="center">CuteFetch</h1>
 
-CuteFetch is a HTTP client, inspired by Axios, thats offers a sleek and minimalistic solution for modern web and Node.js applications
+## What is CuteFetch ?
 
+CuteFetch is a HTTP client, inspired by Axios, thats
+offers a sleek and minimalistic solution for modern web and Node.js applications
 > 🧊 **Tiny & Efficient:** Only ~66.4 kB unpacked — perfect for modern apps.
 
-## 🚀 CuteFetch - Lightweight & Customizable HTTP Client
+
+### Table of Content
+
+- [Features in CuteFetch](#🚀-cutefetch---lightweight--customizable-http-client)
+
+- [How to use?](#how-to-use)
+  - [Create CuteFetch Instance](#create-a-basic-instance)
+  - [Example GET Request](#1-get)
+  - [Example POST Request](#2-post)
+  - [Example PUT Request](#3-put)
+  - [Example PATCH Request](#4-patch)
+  - [Example DELETE Request](#5-delete)
+  - [Extra Methods](#extra---methods)
+
+- [How to use it in plain HTML](#how-to-use-it-in-plain-html)
+
+- Transformer
+  - [transformResponse and transformErrorResponse](#🚀-transformer-transformresponse-and-transformerrorresponse)
+  - [Custom Transformers for Response and Error Handling](#🚀-custom-transformers-for-response-and-error-handling)
+
+- [Inspect Property in CuteFetch Request](#🛠️-inspect-property-in-cutefetch-request)
+
+- [CuteFetch Error and Exceptions](#error-and-exceptions)
+- [License ⚖️](#license-⚖️)
+
+### 🚀 CuteFetch - Lightweight & Customizable HTTP Client
 
 | Feature                       | Description                                                                  |
 | ----------------------------- | ---------------------------------------------------------------------------- |
@@ -19,13 +50,13 @@ CuteFetch is a HTTP client, inspired by Axios, thats offers a sleek and minimali
 | ⏳ **Timeout Support**        | Add timeout globally or to specific instance methods                         |
 | 🔄 **Transformer Properties** | Allows customization of data parsing and transformation in response handling |
 
-# How to use?
+## How to use?
 
 ```bash
 npm install cutefetch  # Or yarn add cutefetch
 ```
 
-## Includes in Project
+### Includes in Project
 
 ```js
 /*For ESM*/
@@ -35,7 +66,7 @@ import CuteFetch from "cutefetch";
 const CuteFetch = require("cutefetch");
 ```
 
-## Create CuteFetch instance
+### Create CuteFetch instance
 
 ```js
 const cf = new CuteFetch({
@@ -48,7 +79,7 @@ const cf = new CuteFetch({
 });
 ```
 
-## ⚙️ CuteFetch Config Props
+### ⚙️ CuteFetch Config Props
 
 | Property      | Description                                                                                                               | Default                                                                                       | Optional |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | :------: |
@@ -99,7 +130,7 @@ const cf = new CuteFetch({
 
 ## Example Request
 
-**Create a Basic Instance**
+### Create a Basic Instance
 
 ```js
 const cf = new CuteFetch({
@@ -302,7 +333,7 @@ if (data) {
 { success: true, status: 200, message: 'Post deleted id: 5' }
 ```
 
-<h2 align='center'>EXTRA - Methods</h2>
+## EXTRA - Methods
 
 This method can handle any HTTP Request. Additionally, it gives the Developer more control. However, the `extra` method returns a Promise Response, so if you use it, you will be responsible for handling the Promise Response yourself
 
@@ -432,7 +463,6 @@ const { error, data, status, statusText } = await cf.put("/posts/1", {
 - The callback function gives you flexibility to log, process, or store any information you need from the request.
 
 This feature is powerful for debugging or understanding how requests are made under the hood.
-
 ## 🚀 Transformer: `transformResponse` and `transformErrorResponse`
 
 ### Overview
@@ -451,7 +481,7 @@ This feature is powerful for debugging or understanding how requests are made un
 #### Example:
 
 ```javascript
-const { data, error } = await cf.get("/some-endpoint", {
+const { data, error } = await cf.get("/some-endpoint", {#
   transformResponse: (data) => {
     // Example: Convert response data to uppercase before returning
     return data.toUpperCase();
@@ -531,85 +561,122 @@ if (data) {
 
 - Use **`transformResponse`** if you need to format or modify the data before your application uses it.
 - Use **`transformErrorResponse`** to adjust error handling or add custom messages, logging, or other properties to errors.
+ 
+## 🚀 Custom Transformers for Response and Error Handling
 
-## ✨ **Create Your Own Global Transformer**
+### Overview
 
-_Customize your response and error handling for ultimate flexibility!_
+- **`transformResponse`** and **`transformErrorResponse`** are not part of the global configuration. Instead, they are optional features that developers can implement as needed.
+- Developers have the flexibility to create their custom higher-order functions for transforming responses and errors at the application level.
+- By allowing developers to define their own transformers, they can tailor the response and error handling to their specific needs, without a top-level enforced configuration.
 
-To provide maximum flexibility, CuteFetch doesn't enforce global response or error transformers. Instead, i leave it up to you to create **global transformers** that suit your app's needs. Whether you need to transform your data for every request or handle errors in a custom way, the choice is in your hands. 🌟
+### How to Implement Custom Transformers
 
-### 🔨 **How to Create Your Own Global Transformers**
+You can create custom functions for transforming both responses and errors within your application by defining them at the request level.
 
-You can create **global response and error transformers** by defining higher-order functions that will transform the data from all requests in your application. Whether you need to log, format, or handle errors in a special way, this approach lets you craft a solution that's perfect for your project.
+#### 1. `transformResponse` (Custom Response Transformer)
 
-#### 🔄 **Custom Response Transformer**
+This function lets you manipulate the successful response data. It can be implemented at the request level to customize how the response data is processed before it reaches your application.
 
-If you want to modify the response data across multiple requests, create a **global response transformer**.
+#### Example:
+
+```javascript
+const { data, error } = await cf.get("/some-endpoint", {
+  transformResponse: (data) => {
+    // Custom transformation logic
+    // Example: Log the original data and modify it
+    console.log("Original Data:", data);
+    return {
+      ...data,
+      modified: true, // Add custom properties or modifications
+    };
+  },
+});
+```
+
+In this example, the developer is free to log or transform the `data` returned from the endpoint as needed.
+
+#### 2. `transformErrorResponse` (Custom Error Transformer)
+
+Similarly, you can define how to handle errors when a request fails by using `transformErrorResponse`. This function gives you full control over the error response data.
+
+#### Example:
+
+```javascript
+const { data, error } = await cf.get("/some-endpoint", {
+  transformErrorResponse: (error) => {
+    // Custom error transformation
+    // Example: Add additional info to the error
+    console.log("Error Data:", error);
+    return {
+      ...error,
+      customErrorMessage: "An error occurred, please try again later.",
+    };
+  },
+});
+```
+
+In this case, if the request fails, the developer can modify the error response to include a custom message or perform additional actions like logging.
+
+---
+
+### Flexibility to Create Higher-Order Transformers
+
+Since the `transformResponse` and `transformErrorResponse` functions are not provided by default in the global config, developers can create higher-order functions to use as transformers across their application.
+
+#### Example: Custom Higher-Order Function for Transformer
+
+Here’s how you might create a custom higher-order function that wraps the transformer logic for reuse:
 
 ```javascript
 function createResponseTransformer(transformer) {
   return function (data) {
-    // Apply custom logic to modify the data
-    console.log("Modified Response:", data);
+    // Apply additional transformations or logic if needed
     return transformer(data);
   };
 }
-```
 
-Use the transformer across your app like so:
-
-```javascript
-const customResponseTransformer = createResponseTransformer((data) => {
-  return { ...data, transformed: true }; // Add custom fields
-});
-
-// Applying the transformer globally in requests
-const { data } = await cf.get("/some-endpoint", {
-  transformResponse: customResponseTransformer,
-});
-```
-
-#### ⚠️ **Custom Error Transformer**
-
-Handle errors across your app with a **global error transformer**. Customize the way you process errors, add logs, or modify error messages for better clarity.
-
-```javascript
 function createErrorTransformer(errorTransformer) {
   return function (error) {
-    console.error("Transformed Error:", error);
+    // Apply additional error handling logic if needed
     return errorTransformer(error);
   };
 }
-```
 
-Here’s how to use it:
-
-```javascript
-const customErrorTransformer = createErrorTransformer((error) => {
-  return { ...error, customMessage: "Oops, something went wrong!" };
+// Usage:
+const customResponseTransformer = createResponseTransformer((data) => {
+  console.log("Custom Response:", data);
+  return { ...data, custom: true };
 });
 
-// Applying the transformer globally in requests
+const customErrorTransformer = createErrorTransformer((error) => {
+  console.error("Custom Error:", error);
+  return { ...error, errorMessage: "A custom error occurred" };
+});
+
 const { data, error } = await cf.get("/some-endpoint", {
+  transformResponse: customResponseTransformer,
   transformErrorResponse: customErrorTransformer,
 });
 ```
 
----
+In this approach:
 
-### 🌍 **Why Create Your Own Transformers?**
-
-- **Ultimate Control**: Tailor the transformation logic exactly to your app's needs.
-- **Reusability**: Once created, you can reuse your custom transformers in multiple places throughout your app.
-- **Cleaner Code**: Keep your codebase clean by separating the transformation logic into reusable functions.
+- Developers define their own transformer logic.
+- Custom transformers can be easily reused in various requests.
 
 ---
 
-### 📚 **Learn More**
+### When to Implement Custom Transformers
 
-To dive deeper, check out our detailed guide on [creating custom transformers](./partial_doc/custom_transformer.md) and start customizing your requests for more powerful, dynamic behavior.
+- **Use `transformResponse`** when you need to modify the data received from a successful request (e.g., to format or enrich the data before it's used in your application).
+- **Use `transformErrorResponse`** to adjust error handling (e.g., to add additional context, log errors, or format error messages in a specific way).
+- Developers can implement custom logic by creating higher-order functions, allowing flexible handling of both responses and errors.
 
-<h2 align='center'> Error and Exceptions</h2>
+---
+
+This setup gives developers full control over the transformation process, allowing them to create higher-order functions or individual transformers as needed while avoiding enforcing global configurations.
+## Error and Exceptions
 
 You need to add the corresponding HTTP method in the `CuteFetch` Configuration for each `CuteFetch` instance method you intend to use.
 
@@ -625,7 +692,7 @@ const cf = new CuteFetch({
 If you call the `cf.get()` method without adding "GET" to the methods array in the `CuteFetch` configuration, you will see the following error:
 
 <div align="center">
-  <img src="./assets/config.err-1.png">
+  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/config.err-1.png">
 </div>
 
 Similarly, you need to add all the HTTP Request methods you intend to use to the methods Array in the `CuteFetch` Configuration.
@@ -643,7 +710,7 @@ const result = await cf.get("/posts", {
 ```
 
 <div align="center">
-  <img src="./assets/config.err-2.png">
+  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/config.err-2.png">
 </div>
 
 Note: It is pointless to try to modify the Request method of these five instance methods: `cf.get()`, `cf.post()`, `cf.put()`, `cf.patch()`, `cf.delete()`.
@@ -677,7 +744,7 @@ const response = await cf.extra("/posts", {});
 ```
 
 <div align="center">
-  <img src="./assets/config.err-3.png">
+  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/config.err-3.png">
 </div>
 
 ---
@@ -709,7 +776,7 @@ For example:
 ```
 
 <div align="center">
-  <img src="./assets/config.err-4.png">
+  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/config.err-4.png">
 </div>
 
 ## How to use it in plain HTML
@@ -718,10 +785,7 @@ For example:
 
 ```js
 // Import CuteFetch from unpkg (ESM)
-import CuteFetch from "https://www.unpkg.com/cutefetch@<version>/dist/index.mjs";
-
-// Replace <version> with the latest version from https://www.npmjs.com/package/cutefetch?activeTab=versions
-// For example: cutefetch@1.2.3
+import CuteFetch from "https://www.unpkg.com/cutefetch@1.1.2/dist/index.mjs";
 
 // create CuteFetch instance
 const cf = new CuteFetch({
@@ -764,19 +828,36 @@ cf.get("/api/posts", {
 **Inside browser console**
 
 <div align="center">
-  <img src="./assets/browser.console.result.png">
+  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/browser.console.result.png">
 </div>
 
-### Supported HTTP Methods for CuteFetch
 
-```
-GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS ✔️
-```
+# License ⚖️
+Feel free to use, modify, and distribute under the terms of this license. 💻
+
+#### 💡 Permission:
+- Commercial use allowed 💼
+- Modification allowed 🔧
+- Distribution allowed 📦
+
+
+#### 🚫 Conditions:
+- Must include this license notice in all copies or substantial portions of the software 📜.
+- Provide attribution to the original author 🙏.
+
+This project is licensed under the **[MIT License](./LICENSE)** 📝.  
+
+<br/>
 
 ---
+<br>
+<p align="center">
+  <strong>📅 Created At:</strong> 2024-02-29<br/>
+  <strong>🛠️ Last Updated:</strong> 2025-04-27
+</p>
 
----
+<h3 align="center">🌟 Thanks for visiting! Take care of your eyes 👀✨</h3>
 
-<h3 align='center'>Thanks to you, and take care of your eyes.</h3>
-
-<p align='center'>❤️😊</p>
+<p align="center" style="font-size: 1.2rem;">
+  ❤️ Stay awesome and keep coding! 🚀
+</p>

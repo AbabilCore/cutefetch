@@ -15,7 +15,7 @@ offers a sleek and minimalistic solution for modern web and Node.js applications
 
 ### Table of Content
 
-- [Features in CuteFetch](#🚀-cutefetch---lightweight--customizable-http-client)
+- [Features in CuteFetch](#cutefetch---lightweight--customizable-http-client)
 
 - [How to use?](#how-to-use)
   - [Create CuteFetch Instance](#create-a-basic-instance)
@@ -29,15 +29,15 @@ offers a sleek and minimalistic solution for modern web and Node.js applications
 - [How to use it in plain HTML](#how-to-use-it-in-plain-html)
 
 - Transformer
-  - [transformResponse and transformErrorResponse](#🚀-transformer-transformresponse-and-transformerrorresponse)
-  - [Custom Transformers for Response and Error Handling](#🚀-custom-transformers-for-response-and-error-handling)
+  - [transformResponse and transformErrorResponse](#transformer-transformresponse-and-transformerrorresponse)
+  - [Custom Transformers for Response and Error Handling](#custom-transformers-for-response-and-error-handling)
 
-- [Inspect Property in CuteFetch Request](#🛠️-inspect-property-in-cutefetch-request)
+- [Inspect Property in CuteFetch Request](#inspect-property-in-cutefetch-request)
 
 - [CuteFetch Error and Exceptions](#error-and-exceptions)
 - [License ⚖️](#license-⚖️)
 
-### 🚀 CuteFetch - Lightweight & Customizable HTTP Client
+### CuteFetch - Lightweight & Customizable HTTP Client
 
 | Feature                       | Description                                                                  |
 | ----------------------------- | ---------------------------------------------------------------------------- |
@@ -383,7 +383,7 @@ if (!ok) {
 
 **Similarly, other request methods can be applied through this `extra` method.**
 
-## 🛠️ `inspect` Property in CuteFetch Request
+## `inspect` Property in CuteFetch Request
 
 The `inspect` property is an optional feature that allows you to inspect and log detailed information about a request and its components before it's sent. You can use this feature to debug, log, or track specific aspects of a request's execution. The property is an object containing two parts:
 
@@ -463,7 +463,7 @@ const { error, data, status, statusText } = await cf.put("/posts/1", {
 - The callback function gives you flexibility to log, process, or store any information you need from the request.
 
 This feature is powerful for debugging or understanding how requests are made under the hood.
-## 🚀 Transformer: `transformResponse` and `transformErrorResponse`
+## Transformer: `transformResponse` and `transformErrorResponse`
 
 ### Overview
 
@@ -562,7 +562,7 @@ if (data) {
 - Use **`transformResponse`** if you need to format or modify the data before your application uses it.
 - Use **`transformErrorResponse`** to adjust error handling or add custom messages, logging, or other properties to errors.
  
-## 🚀 Custom Transformers for Response and Error Handling
+## Custom Transformers for Response and Error Handling
 
 ### Overview
 
@@ -692,7 +692,7 @@ const cf = new CuteFetch({
 If you call the `cf.get()` method without adding "GET" to the methods array in the `CuteFetch` configuration, you will see the following error:
 
 <div align="center">
-  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/config.err-1.png">
+  <img src="docs/assets/config.err-1.png">
 </div>
 
 Similarly, you need to add all the HTTP Request methods you intend to use to the methods Array in the `CuteFetch` Configuration.
@@ -710,7 +710,7 @@ const result = await cf.get("/posts", {
 ```
 
 <div align="center">
-  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/config.err-2.png">
+  <img src="docs/assets/config.err-2.png">
 </div>
 
 Note: It is pointless to try to modify the Request method of these five instance methods: `cf.get()`, `cf.post()`, `cf.put()`, `cf.patch()`, `cf.delete()`.
@@ -744,7 +744,7 @@ const response = await cf.extra("/posts", {});
 ```
 
 <div align="center">
-  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/config.err-3.png">
+  <img src="docs/assets/config.err-3.png">
 </div>
 
 ---
@@ -776,7 +776,7 @@ For example:
 ```
 
 <div align="center">
-  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/config.err-4.png">
+  <img src="docs/assets/config.err-4.png">
 </div>
 
 ## How to use it in plain HTML
@@ -785,7 +785,7 @@ For example:
 
 ```js
 // Import CuteFetch from unpkg (ESM)
-import CuteFetch from "https://www.unpkg.com/cutefetch@1.1.2/dist/index.mjs";
+import CuteFetch from "https://www.unpkg.com/cutefetch@1.1.3/dist/index.mjs";
 
 // create CuteFetch instance
 const cf = new CuteFetch({
@@ -828,7 +828,7 @@ cf.get("/api/posts", {
 **Inside browser console**
 
 <div align="center">
-  <img src="/home/ababil/Desktop/work-space/DevAbabil/cutefetch/docs/assets/browser.console.result.png">
+  <img src="docs/assets/browser.console.result.png">
 </div>
 
 

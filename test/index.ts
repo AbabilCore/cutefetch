@@ -1,5 +1,5 @@
-import CuteFetch from "@/CuteFetch";
-import { log } from "@/shared";
+import CuteFetch from "@/src/CuteFetch";
+import { log } from "@/module";
 
 log.info("Test Module running....");
 

@@ -4,7 +4,7 @@
   "description": "A sleek and minimalistic HTTP client for modern web and Node.js applications, designed with simplicity and elegance in mind.",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && npx tsx banner.ts && tsup && rimraf temp-banner.txt",
+    "build": "npm run clean && npx tsx scripts/index.ts && tsup && rimraf temp-banner.txt",
     "dev": "npx tsx watch test/index.ts"
   },
   "main": "./dist/index.cjs",
@@ -47,6 +47,7 @@
     "@types/node": "^22.14.1",
     "@typescript-eslint/eslint-plugin": "^8.24.1",
     "@typescript-eslint/parser": "^8.24.1",
+    "handlebars": "^4.7.8",
     "rimraf": "^5.0.10",
     "tsup": "^8.3.6",
     "tsx": "^4.19.3",

@@ -1,10 +1,10 @@
-import { RequestConstract } from "@/helper";
+import { RequestConstract } from "@/src/helper";
 import {
   CuteFetchResponse,
   IConfig,
   IRequestOptions,
   IRequestOptionsExtra,
-} from "@/shared";
+} from "@/src/shared";
 
 class CuteFetch extends RequestConstract {
   constructor(protected config?: IConfig) {

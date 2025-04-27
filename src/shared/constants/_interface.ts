@@ -3,7 +3,7 @@ import {
   RequestMethod,
   TransformErrorResponse,
   TransformResponse,
-} from "@/shared";
+} from "@/src/shared";
 
 export interface IConfig
   extends Pick<RequestInit, "credentials" | "mode" | "cache"> {

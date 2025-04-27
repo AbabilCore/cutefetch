@@ -1,4 +1,4 @@
-import { InspectObject } from "@/shared";
+import { InspectObject } from "@/src/shared";
 
 export type RequestMethod =
   | "GET"

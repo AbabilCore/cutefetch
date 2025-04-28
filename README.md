@@ -785,7 +785,7 @@ For example:
 
 ```js
 // Import CuteFetch from unpkg (ESM)
-import CuteFetch from "https://www.unpkg.com/cutefetch@1.1.3/dist/index.mjs";
+import CuteFetch from "https://www.unpkg.com/cutefetch@1.1.6/dist/index.mjs";
 
 // create CuteFetch instance
 const cf = new CuteFetch({
@@ -853,7 +853,7 @@ This project is licensed under the **[MIT License](./LICENSE)** 📝.
 <br>
 <p align="center">
   <strong>📅 Created At:</strong> 2024-02-29<br/>
-  <strong>🛠️ Last Updated:</strong> 2025-04-27
+  <strong>🛠️ Last Updated:</strong> 2025-04-28
 </p>
 
 <h3 align="center">🌟 Thanks for visiting! Take care of your eyes 👀✨</h3>

@@ -1,11 +1,11 @@
 import {
+  CF_ERROR,
   CuteFetchResponse,
   defaultTimeout,
   IRequestOptions,
   NormalizedReqOptions,
   ReqParams,
 } from "@/src/shared";
-import { CF_ERROR } from "@/module";
 
 export class RequestHandler {
   private _timout = (timeout: number) => {

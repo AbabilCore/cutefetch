@@ -785,7 +785,7 @@ For example:
 
 ```js
 // Import CuteFetch from unpkg (ESM)
-import CuteFetch from "https://www.unpkg.com/cutefetch@1.1.6/dist/index.mjs";
+import CuteFetch from "https://www.unpkg.com/cutefetch@1.2.0/dist/index.mjs";
 
 // create CuteFetch instance
 const cf = new CuteFetch({

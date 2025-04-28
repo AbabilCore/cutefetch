@@ -1,6 +1,6 @@
 import fs from "fs";
 import { join } from "path";
-import { ROOT_DIR } from "@/module";
+import { CREATED_AT, ROOT_DIR, TODAY } from "@/module";
 
 const pkg = JSON.parse(
   fs.readFileSync(join(ROOT_DIR, "package.json"), "utf-8")
@@ -13,10 +13,10 @@ const bannerTXT = `
  * @author          ${pkg.author}
  * @license         ${pkg.license}
  * @description     ${pkg.description}
- * @website         https://www.npmjs.com/package/cutefetch
+ * @website         ${pkg.homepage}
  * @repository      https://github.com/DevAbabil/cutefetch
- * @created         2024-02-29
- * @lastModified    ${new Date().toISOString().split("T")[0]}
+ * @created         ${CREATED_AT}
+ * @lastModified    ${TODAY}
  * ------------------------------------------------------------
  */
 `.trim();

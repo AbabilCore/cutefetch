@@ -4,7 +4,7 @@ import { readFileSync } from "fs";
 
 export const ROOT_DIR: string = process.cwd();
 
-export const pkg_data = (): Record<string, string> => {
+export const pkg_data = (): PackageJson => {
   const pkg = readFileSync(join(ROOT_DIR, "package.json"), "utf-8");
   return JSON.parse(pkg);
 };
@@ -24,16 +24,6 @@ export const tcWrapper = <T extends (...args: any[]) => Promise<any>>(
     }
   };
 };
-
-export class CF_ERROR extends Error {
-  public name: string;
-
-  constructor(message: string) {
-    super(message);
-    this.name = "CuteFetch";
-    this.message = message;
-  }
-}
 
 export const TODAY = new Date().toLocaleDateString("en-CA", {
   timeZone: "Asia/Dhaka",

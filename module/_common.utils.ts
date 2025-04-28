@@ -1,11 +1,13 @@
 import { log, PackageJson } from "@/module";
 import { join } from "path";
-import { readFile } from "fs/promises";
-import { execSync } from "child_process";
+import { readFileSync } from "fs";
 
-export const ROOT_DIR: string = execSync("git rev-parse --show-toplevel")
-  .toString()
-  .trim();
+export const ROOT_DIR: string = process.cwd();
+
+export const pkg_data = (): Record<string, string> => {
+  const pkg = readFileSync(join(ROOT_DIR, "package.json"), "utf-8");
+  return JSON.parse(pkg);
+};
 
 export const tcWrapper = <T extends (...args: any[]) => Promise<any>>(
   fn: T
@@ -33,7 +35,8 @@ export class CF_ERROR extends Error {
   }
 }
 
-export const pkg_data = async (): Promise<PackageJson> => {
-  const pkg = await readFile(join(ROOT_DIR, "package.json"), "utf-8");
-  return JSON.parse(pkg);
-};
+export const TODAY = new Date().toLocaleDateString("en-CA", {
+  timeZone: "Asia/Dhaka",
+});
+
+export const CREATED_AT: string = pkg_data()?.createdAt?.split("T")[0];

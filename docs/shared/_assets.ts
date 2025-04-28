@@ -1,13 +1,15 @@
-import { resolve_assets } from "./_resolve_assets";
+import { readdirSync } from "fs";
+import { ROOT_DIR } from "@/module";
+import { join, resolve } from "path";
 
-const asset_names = [
-  "browser.console.result.png",
-  "config.err-1.png",
-  "config.err-2.png",
-  "config.err-3.png",
-  "config.err-4.png",
-] as const;
+const ASSETS_DIR = resolve(ROOT_DIR, "docs", "assets");
+
+const assets_files = readdirSync(resolve(ASSETS_DIR));
+
+export const resolve_assets = (assets_name: string) => {
+  return join("docs", "assets", assets_name);
+};
 
 export const assets = Object.fromEntries(
-  asset_names.map((name) => [name, resolve_assets(name)])
+  assets_files.map((name) => [name, resolve_assets(name)])
 );

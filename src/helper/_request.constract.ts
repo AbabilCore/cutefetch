@@ -2,6 +2,7 @@ import { RequestHandler } from "@/src/helper";
 import {
   bodyLessMethodProps,
   cacheProps,
+  CF_ERROR,
   credentialsProps,
   CuteFetchResponse,
   GenURLParams,
@@ -12,7 +13,6 @@ import {
   isValidURL,
   modeProps,
 } from "@/src/shared";
-import { CF_ERROR } from "@/module";
 
 export class RequestConstract extends RequestHandler {
   constructor(protected config?: IConfig) {

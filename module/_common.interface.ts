@@ -10,6 +10,7 @@ export interface PackageJson {
   keywords: string[];
   author: string;
   license: string;
+  createdAt: string;
   repository: {
     type: string;
     url: string;

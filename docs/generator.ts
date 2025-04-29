@@ -5,10 +5,9 @@ import { template_index, readme_data, partials, assets } from "@/docs/shared";
 import { ROOT_DIR, tcWrapper } from "@/module";
 
 const register_partials = tcWrapper(async () => {
-  for (const partial of partials) {
-    const name = basename(partial.path).replace(".hbs", "");
-    const content = await readFile(partial.path, "utf-8");
-    HB.registerPartial(name, content);
+  for (const { title, path } of partials) {
+    const content = await readFile(path, "utf-8");
+    HB.registerPartial(title, content);
   }
 });
 

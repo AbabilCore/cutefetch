@@ -4,15 +4,17 @@ import {
   cacheProps,
   CF_ERROR,
   credentialsProps,
+  isValidURL,
+  modeProps,
+} from "@/src/shared";
+import {
   CuteFetchResponse,
   GenURLParams,
   IConfig,
   InitiatorParams,
   InspectObject,
   IRequestOptions,
-  isValidURL,
-  modeProps,
-} from "@/src/shared";
+} from "@/src/types";
 
 export class RequestConstract extends RequestHandler {
   constructor(protected config?: IConfig) {
@@ -233,20 +235,11 @@ export class RequestConstract extends RequestHandler {
 
     switch (method) {
       case "GET":
-        return this.reqGET({ url, options }) as Promise<T>;
-
       case "POST":
-        return this.reqPOST({ url, options }) as Promise<T>;
-
       case "PUT":
-        return this.reqPUT({ url, options }) as Promise<T>;
-
       case "PATCH":
-        return this.reqPATCH({ url, options }) as Promise<T>;
-
       case "DELETE":
-        return this.reqDELETE({ url, options }) as Promise<T>;
-
+        return this.controlledRequest({ url, options }) as Promise<T>;
       case "EXTRA":
       default:
         return this.reqEXTRA({ url, options }) as Promise<T>;

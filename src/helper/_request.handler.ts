@@ -1,11 +1,10 @@
+import { CF_ERROR, defaultTimeout } from "@/src/shared";
 import {
-  CF_ERROR,
   CuteFetchResponse,
-  defaultTimeout,
   IRequestOptions,
   NormalizedReqOptions,
   ReqParams,
-} from "@/src/shared";
+} from "@/src/types";
 
 export class RequestHandler {
   private _timout = (timeout: number) => {
@@ -17,7 +16,6 @@ export class RequestHandler {
           `Timout Failed! '${timeout} ms' consider using larger timeout value`
         )
       );
-
       clearTimeout(timerId);
     }, timeout);
 
@@ -120,31 +118,7 @@ export class RequestHandler {
   //.................................
   // Handle All Request
   //..................................
-  protected reqGET = async ({ url, options }: ReqParams) => {
-    options = this._normalized_request_options(options);
-    const resonse = await fetch(url, options);
-    return await this._cute_fetch_response(resonse, options);
-  };
-
-  protected reqPOST = async ({ url, options }: ReqParams) => {
-    options = this._normalized_request_options(options);
-    const resonse = await fetch(url, options);
-    return await this._cute_fetch_response(resonse, options);
-  };
-
-  protected reqPUT = async ({ url, options }: ReqParams) => {
-    options = this._normalized_request_options(options);
-    const resonse = await fetch(url, options);
-    return await this._cute_fetch_response(resonse, options);
-  };
-
-  protected reqPATCH = async ({ url, options }: ReqParams) => {
-    options = this._normalized_request_options(options);
-    const resonse = await fetch(url, options);
-    return await this._cute_fetch_response(resonse, options);
-  };
-
-  protected reqDELETE = async ({ url, options }: ReqParams) => {
+  protected controlledRequest = async ({ url, options }: ReqParams) => {
     options = this._normalized_request_options(options);
     const resonse = await fetch(url, options);
     return await this._cute_fetch_response(resonse, options);

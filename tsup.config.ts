@@ -1,33 +1,32 @@
-import { defineConfig } from "tsup";
+import { defineConfig, Options } from "tsup";
 import fs from "fs";
+
+const sharedConfig: Options = {
+  esbuildOptions(options) {
+    options.mangleProps = /^_/;
+    options.mangleQuoted = true;
+    return options;
+  },
+  banner: {
+    js: fs.readFileSync("temp-banner.txt", "utf-8"),
+  },
+  dts: true,
+  clean: true,
+};
 
 export default defineConfig([
   {
+    ...sharedConfig,
     entry: ["src/index.ts"],
     format: ["esm"],
     outExtension: () => ({ js: ".mjs" }),
-    dts: true,
-    clean: true,
-    esbuildOptions(options) {
-      options.mangleProps = /^_/;
-      options.mangleQuoted = true;
-    },
-    banner: {
-      js: fs.readFileSync("temp-banner.txt", "utf-8"),
-    },
+    outDir: "dist",
   },
   {
+    ...sharedConfig,
     entry: ["src/index.cts"],
     format: ["cjs"],
     outExtension: () => ({ js: ".cjs" }),
-    dts: false,
-    clean: false,
-    esbuildOptions(options) {
-      options.mangleProps = /^_/;
-      options.mangleQuoted = true;
-    },
-    banner: {
-      js: fs.readFileSync("temp-banner.txt", "utf-8"),
-    },
+    outDir: "dist",
   },
 ]);

@@ -1,26 +1,24 @@
-import fs from "fs";
-import { join } from "path";
-import { CREATED_AT, ROOT_DIR, TODAY } from "@/module";
+import fs from "fs/promises";
+import { resolve } from "path";
+import { CREATED_AT, ROOT_DIR, TODAY, pkg_data, tcWrapper } from "@/module";
 
-const pkg = JSON.parse(
-  fs.readFileSync(join(ROOT_DIR, "package.json"), "utf-8")
-);
+export const generateBanner = tcWrapper(async () => {
+  const pkg = (await pkg_data()) || {};
 
-const bannerTXT = `
+  const bannerTXT = `
 /**
- * @packageName     ${pkg.name}
- * @version         ${pkg.version}
- * @author          ${pkg.author}
- * @license         ${pkg.license}
- * @description     ${pkg.description}
- * @website         ${pkg.homepage}
- * @repository      https://github.com/DevAbabil/cutefetch
+ * @packageName     ${pkg?.name}
+ * @version         ${pkg?.version}
+ * @author          ${pkg?.author}
+ * @license         ${pkg?.license}
+ * @description     ${pkg?.description}
+ * @website         ${pkg?.homepage}
+ * @repository      ${pkg?.repository?.url?.replace("git+", "")}
  * @created         ${CREATED_AT}
  * @lastModified    ${TODAY}
  * ------------------------------------------------------------
  */
 `.trim();
 
-export const generateBanner = () => {
-  fs.writeFileSync(join(ROOT_DIR, "temp-banner.txt"), bannerTXT);
-};
+  await fs.writeFile(resolve(ROOT_DIR, "temp-banner.txt"), bannerTXT);
+});

@@ -4,7 +4,7 @@ import {
   IConfig,
   IRequestOptions,
   IRequestOptionsExtra,
-} from "@/src/shared";
+} from "@/src/types";
 
 class CuteFetch extends RequestConstract {
   constructor(protected config?: IConfig) {

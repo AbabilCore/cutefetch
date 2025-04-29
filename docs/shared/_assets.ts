@@ -4,7 +4,7 @@ import { join, resolve } from "path";
 
 const ASSETS_DIR = resolve(ROOT_DIR, "docs", "assets");
 
-const assets_files = readdirSync(resolve(ASSETS_DIR));
+const assets_files = readdirSync(ASSETS_DIR);
 
 export const resolve_assets = (assets_name: string) => {
   return join("docs", "assets", assets_name);

@@ -1,4 +1,5 @@
 import { ROOT_DIR, PartialConfig } from "@/module";
+import { readdirSync } from "fs";
 import { resolve } from "path";
 
 /**
@@ -22,6 +23,11 @@ const dir: Record<string, string> = {
     return resolve(this.partials, "base");
   },
 
+  // Path to body partials
+  get body() {
+    return resolve(this.partials, "body");
+  },
+
   // Path to detailed partials (feature breakdowns, etc.)
   get details() {
     return resolve(this.partials, "details");
@@ -33,54 +39,22 @@ const dir: Record<string, string> = {
  */
 export const partials: PartialConfig[] = [
   // Base Partials
-  {
-    title: "Header",
-    path: resolve(dir.base, "header.hbs"),
-  },
-  {
-    title: "Table of Contents",
-    path: resolve(dir.base, "toc.hbs"),
-  },
-  {
-    title: "Footer",
-    path: resolve(dir.base, "footer.hbs"),
-  },
-  {
-    title: "Banner Comment",
-    path: resolve(dir.base, "banner.comment.hbs"),
-  },
+  ...readdirSync(dir.base).map((hbr) => ({
+    title: hbr.replace(".hbs", ""),
+    path: resolve(dir.base, hbr),
+  })),
 
-  // Root Partials
-  {
-    title: "Features",
-    path: resolve(dir.partials, "features.hbs"),
-  },
-  {
-    title: "Uses",
-    path: resolve(dir.partials, "uses.hbs"),
-  },
-  {
-    title: "Exceptions",
-    path: resolve(dir.partials, "exceptions.hbs"),
-  },
-  {
-    title: "License",
-    path: resolve(dir.partials, "license.hbs"),
-  },
-  {
-    title: "HTML Helper",
-    path: resolve(dir.partials, "html.hbs"),
-  },
+  // Body Partials
+  ...readdirSync(dir.body).map((hbr) => ({
+    title: hbr.replace(".hbs", ""),
+    path: resolve(dir.body, hbr),
+  })),
 
-  // 🔍 Details Partials
-  {
-    title: "Inspector",
-    path: resolve(dir.details, "inspect.hbs"),
-  },
-  {
-    title: "Transformer",
-    path: resolve(dir.details, "transformer.hbs"),
-  },
+  // Details Partials
+  ...readdirSync(dir.details).map((hbr) => ({
+    title: hbr.replace(".hbs", ""),
+    path: resolve(dir.details, hbr),
+  })),
 ];
 
 /**

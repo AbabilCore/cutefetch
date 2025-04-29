@@ -50,6 +50,85 @@ offers a sleek and minimalistic solution for modern web and Node.js applications
 | ⏳ **Timeout Support**        | Add timeout globally or to specific instance methods                         |
 | 🔄 **Transformer Properties** | Allows customization of data parsing and transformation in response handling |
 
+<details>
+  <summary>📁 CuteFetch Folder Structure</summary>
+
+  ```
+  ~/cutefetch
+├── docs
+│   ├── assets
+│   │   ├── browser.console.result.png
+│   │   ├── config.err-1.png
+│   │   ├── config.err-2.png
+│   │   ├── config.err-3.png
+│   │   └── config.err-4.png
+│   ├── generator.ts
+│   ├── shared
+│   │   ├── _assets.ts
+│   │   ├── _data.ts
+│   │   ├── _docs.config.ts
+│   │   └── index.ts
+│   └── templates
+│       ├── index.hbs
+│       └── partials
+│           ├── base
+│           │   ├── banner_comment.hbs
+│           │   ├── footer.hbs
+│           │   ├── header.hbs
+│           │   └── toc.hbs
+│           ├── body
+│           │   ├── exceptions.hbs
+│           │   ├── features.hbs
+│           │   ├── folder_tree.hbs
+│           │   ├── html.hbs
+│           │   ├── license.hbs
+│           │   └── uses.hbs
+│           └── details
+│               ├── inspect.hbs
+│               └── transformer.hbs
+├── heartbeat.log
+├── LICENSE
+├── module
+│   ├── _banner.ts
+│   ├── _common.interface.ts
+│   ├── _common.utils.ts
+│   ├── _get_dir_tree.ts
+│   ├── index.ts
+│   └── _logger.ts
+├── package.json
+├── package-lock.json
+├── README.md
+├── scripts
+│   ├── build.sh
+│   └── index.ts
+├── src
+│   ├── CuteFetch.ts
+│   ├── helper
+│   │   ├── index.ts
+│   │   ├── _request.constract.ts
+│   │   └── _request.handler.ts
+│   ├── index.cts
+│   ├── index.ts
+│   ├── shared
+│   │   ├── _constants.ts
+│   │   ├── index.ts
+│   │   └── _utils.ts
+│   └── types
+│       ├── _core.interface.ts
+│       ├── _core.types.ts
+│       └── index.ts
+├── temp-banner.txt
+├── test
+│   └── index.ts
+├── tsconfig.json
+└── tsup.config.ts
+
+16 directories, 52 files
+
+  ```
+</details> 
+
+
 ## How to use?
 
 ```bash
@@ -853,7 +932,7 @@ This project is licensed under the **[MIT License](./LICENSE)** 📝.
 <br>
 <p align="center">
   <strong>📅 Created At:</strong> 2024-02-29<br/>
-  <strong>🛠️ Last Updated:</strong> 2025-04-28
+  <strong>🛠️ Last Updated:</strong> 2025-04-29
 </p>
 
 <h3 align="center">🌟 Thanks for visiting! Take care of your eyes 👀✨</h3>

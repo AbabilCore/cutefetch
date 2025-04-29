@@ -19,7 +19,7 @@ const transformer = {
 const cf = new CuteFetch({
   methods: ["DELETE", "GET", "POST", "PATCH", "PUT"],
   baseURL: "https://typecode-api.vercel.app/api/",
-  timeout: 3000,
+  timeout: 13000,
   headers: {
     "Content-Type": "application/json",
   },
